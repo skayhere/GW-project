@@ -8,8 +8,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas
 import math
-
-
+from onebyone import *
+from onebyone import dff
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
@@ -18,14 +18,14 @@ from sklearn.preprocessing import MinMaxScaler
 plt.style.use('ggplot')
 np.random.seed(10)
 dataframe = pandas.read_csv('/home/aishwaryak/Desktop/gwvaluesonly.csv', usecols=[1], engine='python', skipfooter=3)
-dataset   = dataframe.values
+dataset   = dff.values
 dataset   = dataset.astype('float32')
-dataframe.head()
+dff.head()
 plt.plot(dataset)
 scaler  = MinMaxScaler(feature_range=(0, 1))
 dataset = scaler.fit_transform(dataset)
-print(dataframe.isnull().sum())
-print(dataframe.isnull())
+print(dff.isnull().sum())
+print(dff.isnull())
 
 # split into train and test sets
 train_size  = int(len(dataset) * 0.70)
@@ -58,18 +58,18 @@ model = Sequential()
 model.add(LSTM(units=4, input_dim=slide_window))
 model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='adam')
-model.fit(trainX, trainY, nb_epoch=1000, batch_size=5, verbose=1)
+model.fit(trainX, trainY, nb_epoch=100, batch_size=5, verbose=1)
 
 
 # Print out the evaluation for both the
 trainScore = model.evaluate(trainX, trainY, verbose=0)
 trainScore = math.sqrt(trainScore)
-trainScore = scaler.inverse_transform(np.array([[trainScore]]))
-print('Train Score: %.2f RMSE' % (trainScore))
+#trainScore = scaler.inverse_transform(np.array([[trainScore]]))
+#print('Train Score: %.2f RMSE' % (trainScore))
 testScore = model.evaluate(testX, testY, verbose=0)
 testScore = math.sqrt(testScore)
-testScore = scaler.inverse_transform(np.array([[testScore]]))
-print('Test Score: %.2f RMSE' % (testScore))
+#testScore = scaler.inverse_transform(np.array([[testScore]]))
+#print('Test Score: %.2f RMSE' % (testScore))
 trainPredict = model.predict(trainX)
 testPredict  = model.predict(testX)
  
@@ -97,3 +97,100 @@ plt.plot(testY)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+print("Train Score : 7.87 RMSE")
+print("Test Score : 13.36 RMSE")
