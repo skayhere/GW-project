@@ -50,8 +50,8 @@ print (x),(y)
 #plt.title('Groundwater levels on a yearly basis', size=24)
 #plt.xlabel('Year', size=18)
 #plt.ylabel('Pre-monsoon gw levels', size=18)
-ax1= df.plot(kind='scatter', x='PREMON',y='MONSOON', color='blue',alpha=0.5, figsize=(5,5))
-df.describe()
+ax1= df.plot(kind='scatter', x='YEAR_OBS',y='MONSOON', color='blue',alpha=0.5, figsize=(5,5))
+print(df.describe())
 df.head()
 print((df[['MONSOON','POMRB','POMKH','PREMON']] == 0).sum())
 print(df.isnull().sum())
@@ -68,7 +68,7 @@ print(df)
 print(b)
 values = df.values
 print(values)
-ax2= dataset.plot(kind='scatter', x='YEAR_OBS',y='MONSOON', color='blue',alpha=0.5, figsize=(5,5))
+ax2= dataset.plot(kind='scatter', x='YEAR_OBS',y='PREMON', color='blue',alpha=0.5, figsize=(5,5))
 
 print(df['MONSOON'])
 
@@ -104,7 +104,7 @@ Xtest = sc.transform(Xtest)
 regressor1 = RandomForestRegressor(n_estimators=1, random_state=0)
 cc=regressor1.fit(Xtrain, ytrain)
 ypred = regressor.predict(Xtest)
-cutoff = 8.19                            # deciding on a cutoff limit
+cutoff = 8.19                           # deciding on a cutoff limit
 ypred_classes = np.zeros_like(ypred)    # initialise a matrix full with zeros
 ypred_classes[ypred > cutoff] = 1       
 ytest_classes = np.zeros_like(ypred)
@@ -130,7 +130,7 @@ print()
 print("Gradient boosting model Score before replacement: ",model.score(X_test, y_test))
 ypre = model.predict(X_test)
 
-ypre = np.exp(ypre) - 1 # undo the log we took earlier
+ypre = np.exp(ypre) -1 # undo the log we took earlier
 
 ypre[5:]
 #feature_importances(model, df.columns, n=15)
@@ -145,17 +145,16 @@ print()
 print()
 print("Gradient boosting model Score after` replacement: ",model.score(Xtest,ytest))
 ypr = model.predict(Xtest)
-ypr[:]
+print(ypr[:])
 print()
-print('Model score')
-model.score(Xtrain,ytrain)
+model.score(Xtest,ytest)
 ypredclasses = np.zeros_like(ypr)    # initialise a matrix full with zeros
 ypredclasses[ypr > cutoff] = 1       
-ytestclasses = np.zeros_like(ypr)
+ytestclasses = np.zeros_like(ypre)
 ytestclasses[ytest > cutoff] = 1
 
-accuracy_score(ypredclasses,ytestclasses)
-
+tt = accuracy_score(ypredclasses,ytestclasses)
+#print("MODEL ACCURACY : ", tt)
 
   
 # reshape for reshaping the data into a len(X_grid)*1 array,  
@@ -204,16 +203,16 @@ clf1.fit(Xtrain, ytrain)
 for i, ypre in enumerate(clf.staged_predict(X_test)):
     test_score[i] = clf.loss_(y_test, ypre)
 
-plt.figure(figsize=(12, 6))
-plt.subplot(1, 2, 1)
-plt.title('Deviance')
-plt.plot(np.arange(params['n_estimators']) + 1, clf.train_score_, 'b-',
-         label='Training Set Deviance')
-plt.plot(np.arange(params['n_estimators']) + 1, test_score, 'r-',
-         label='Test Set Deviance')
-plt.legend(loc='upper right')
-plt.xlabel('Boosting Iterations')
-plt.ylabel('Deviance')
+#plt.figure(figsize=(12, 6))
+#plt.subplot(1, 2, 1)
+#plt.title('Deviance')
+#plt.plot(np.arange(params['n_estimators']) + 1, clf.train_score_, 'b-',
+#         label='Training Set Deviance')
+#plt.plot(np.arange(params['n_estimators']) + 1, test_score, 'r-',
+#         label='Test Set Deviance')
+#plt.legend(loc='upper right')
+#plt.xlabel('Boosting Iterations')
+#plt.ylabel('Deviance')
 
 
 clf1.fit(Xtrain, ytrain)
@@ -247,12 +246,13 @@ feature_importance = clf.feature_importances_
 feature_importance = 100.0 * (feature_importance / feature_importance.max())
 sorted_idx = np.argsort(feature_importance)
 pos = np.arange(sorted_idx.shape[0]) + .5
-plt.subplot(1, 2, 2)
-plt.barh(pos, feature_importance[sorted_idx], align='center')
-plt.yticks(pos, dataset.columns)
-plt.xlabel('Relative Importance')
-plt.title('Variable Importance')
-plt.show()
+print("Feature importance : ", pos)
+#plt.subplot(1, 2, 2)
+#plt.barh(pos, feature_importance[sorted_idx], align='center')
+#plt.yticks(pos, dataset.columns)
+#plt.xlabel('Relative Importance')
+#plt.title('Variable Importance')
+#plt.show()
 
 
 

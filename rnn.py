@@ -65,11 +65,11 @@ model.fit(trainX, trainY, nb_epoch=100, batch_size=5, verbose=1)
 trainScore = model.evaluate(trainX, trainY, verbose=0)
 trainScore = math.sqrt(trainScore)
 #trainScore = scaler.inverse_transform(np.array([[trainScore]]))
-#print('Train Score: %.2f RMSE' % (trainScore))
+print('Train Score: %.2f RMSE' % (trainScore))
 testScore = model.evaluate(testX, testY, verbose=0)
 testScore = math.sqrt(testScore)
 #testScore = scaler.inverse_transform(np.array([[testScore]]))
-#print('Test Score: %.2f RMSE' % (testScore))
+print('Test Score: %.2f RMSE' % (testScore))
 trainPredict = model.predict(trainX)
 testPredict  = model.predict(testX)
  
@@ -93,104 +93,3 @@ plt.plot(testY)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-print("Train Score : 7.87 RMSE")
-print("Test Score : 13.36 RMSE")
